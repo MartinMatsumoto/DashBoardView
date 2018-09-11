@@ -19,6 +19,8 @@ import com.example.martin.dashboardview.property.arc.HollowArc;
 import com.example.martin.dashboardview.property.arc.HorizontalLinearArc;
 import com.example.martin.dashboardview.property.arc.RadialLinearArc;
 import com.example.martin.dashboardview.property.arc.SolidArc;
+import com.example.martin.dashboardview.property.indicator.BaseIndicator;
+import com.example.martin.dashboardview.property.indicator.RectIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class DashboardView extends View {
     private int mSideLength;
 
     private List<BaseArc> arcs = new ArrayList<>();
+    private List<BaseIndicator> indicators  = new ArrayList<>();
+
 
     public DashboardView(Context context) {
         this(context, null);
@@ -71,7 +75,7 @@ public class DashboardView extends View {
     }
 
     private void testData() {
-        SolidArc r = new SolidArc();
+        /*SolidArc r = new SolidArc();
         r.setRadius(100);
         r.setStartArc(30);
         r.setEndArc(90);
@@ -98,7 +102,7 @@ public class DashboardView extends View {
         hlr.setStrokeWidth(30);
         hlr.setPaintCap(Paint.Cap.ROUND);
         hlr.setColors(new int[]{Color.CYAN, Color.RED, Color.YELLOW, Color.DKGRAY});
-//        arcs.add(hlr);
+        arcs.add(hlr);
 
         RadialLinearArc rlr = new RadialLinearArc();
         rlr.setRadius(300);
@@ -109,7 +113,28 @@ public class DashboardView extends View {
         rlr.setPaintCap(Paint.Cap.ROUND);
         rlr.setColors(new int[]{Color.CYAN, Color.RED, Color.YELLOW, Color.GREEN});
         rlr.setDashEffect(new float[]{60,50});
-        arcs.add(rlr);
+        arcs.add(rlr);*/
+
+
+
+        RectIndicator ri = new RectIndicator();
+        ri.setRadius(200);
+        ri.setStartArc(0);
+        ri.setEndArc(360);
+        ri.setCount(16);
+
+        ri.setCircleRadius(5);
+        ri.setColor(Color.WHITE);
+        ri.setStrokeWidth(20);
+
+        ri.setOffSetCount(1);
+
+        ri.setCircleRadiusOffset(10);
+        ri.setColorOffset(Color.WHITE);
+        ri.setStrokeWidthOffset(20);
+        ri.setOffSet(20);
+        indicators.add(ri);
+
     }
 
     @Override
@@ -125,6 +150,10 @@ public class DashboardView extends View {
 
     private void drawArcs(Canvas canvas) {
         for (BaseArc arc : arcs) {
+            arc.draw(canvas, mPaint, mSideLength);
+        }
+
+        for (BaseIndicator arc : indicators) {
             arc.draw(canvas, mPaint, mSideLength);
         }
     }
