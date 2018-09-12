@@ -16,6 +16,8 @@ import android.view.View;
 import com.example.martin.dashboardview.property.arc.BaseArc;
 import com.example.martin.dashboardview.property.indicator.BaseIndicator;
 import com.example.martin.dashboardview.property.indicator.RectIndicator;
+import com.example.martin.dashboardview.property.pointer.BasePointer;
+import com.example.martin.dashboardview.property.pointer.LinePointer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class DashboardView extends View {
 
     private List<BaseArc> arcs = new ArrayList<>();
     private List<BaseIndicator> indicators  = new ArrayList<>();
-
+    private List<BasePointer> pointers = new ArrayList<>();
 
     public DashboardView(Context context) {
         this(context, null);
@@ -116,7 +118,7 @@ public class DashboardView extends View {
 
 
 
-        RectIndicator ri = new RectIndicator();
+        /*RectIndicator ri = new RectIndicator();
         ri.setRadius(300);
         ri.setStartArc(0);
         ri.setEndArc(360);
@@ -134,7 +136,9 @@ public class DashboardView extends View {
         ri.setStrokeWidthOffset(20);
         ri.setOffSet(20);
         ri.setRectType(RectIndicator.OVAL);
-        indicators.add(ri);
+        indicators.add(ri);*/
+
+        pointers.add(new LinePointer());
     }
 
     @Override
@@ -154,6 +158,10 @@ public class DashboardView extends View {
         }
 
         for (BaseIndicator arc : indicators) {
+            arc.draw(canvas, mPaint, mSideLength);
+        }
+
+        for (BasePointer arc : pointers) {
             arc.draw(canvas, mPaint, mSideLength);
         }
     }
