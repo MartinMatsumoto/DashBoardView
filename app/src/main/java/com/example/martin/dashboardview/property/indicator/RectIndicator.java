@@ -2,8 +2,23 @@ package com.example.martin.dashboardview.property.indicator;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 public class RectIndicator extends BaseIndicator {
+
+    /**
+     * 矩形
+     */
+    public static final int RECT = 1;
+    /**
+     * 圆角矩形
+     */
+    public static final int ROUND_RECT = 2;
+    /**
+     * 圆形
+     */
+    public static final int OVAL = 3;
+
 
     /**
      * 起始角度
@@ -26,9 +41,14 @@ public class RectIndicator extends BaseIndicator {
     private int radius;
 
     /**
-     * 半径
+     * 宽
      */
-    private int circleRadius;
+    private int width;
+
+    /**
+     * 高
+     */
+    private int height;
 
     /**
      * 颜色
@@ -56,11 +76,6 @@ public class RectIndicator extends BaseIndicator {
     private int offSet;
 
     /**
-     * 半径
-     */
-    private int circleRadiusOffset;
-
-    /**
      * 颜色
      */
     private int colorOffset;
@@ -74,6 +89,21 @@ public class RectIndicator extends BaseIndicator {
      * 线宽
      */
     private int strokeWidthOffset;
+
+    /**
+     * 半径
+     */
+    private int circleRadius;
+
+    /**
+     * 半径
+     */
+    private int circleRadiusOffset;
+
+    /**
+     * 方块类型
+     */
+    private int rectType = RECT;
 
     public int getStartArc() {
         return startArc;
@@ -147,20 +177,28 @@ public class RectIndicator extends BaseIndicator {
         this.offSet = offSet;
     }
 
-    public int getCircleRadius() {
-        return circleRadius;
+    public int getWidth() {
+        return width;
     }
 
-    public void setCircleRadius(int circleRadius) {
-        this.circleRadius = circleRadius;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public int getCircleRadiusOffset() {
-        return circleRadiusOffset;
+    public int getHeight() {
+        return height;
     }
 
-    public void setCircleRadiusOffset(int circleRadiusOffset) {
-        this.circleRadiusOffset = circleRadiusOffset;
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getRectType() {
+        return rectType;
+    }
+
+    public void setRectType(int rectType) {
+        this.rectType = rectType;
     }
 
     public int getColorOffset() {
@@ -187,32 +225,60 @@ public class RectIndicator extends BaseIndicator {
         this.strokeWidthOffset = strokeWidthOffset;
     }
 
+    public int getCircleRadius() {
+        return circleRadius;
+    }
+
+    public void setCircleRadius(int circleRadius) {
+        this.circleRadius = circleRadius;
+    }
+
+    public int getCircleRadiusOffset() {
+        return circleRadiusOffset;
+    }
+
+    public void setCircleRadiusOffset(int circleRadiusOffset) {
+        this.circleRadiusOffset = circleRadiusOffset;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength) {
         sideLength = sideLength / 2;
         canvas.save();
         paint.setShader(null);
         paint.setStyle(Paint.Style.FILL);
+        paint.setColor(color);
 
         float degree = (endArc - startArc) * 1.0f / count * 1.0f;
         int currOffsetCount = 0;
+
         // 顺时针旋转
         for (int i = 0; i < count ; i++) {
-            float cy = sideLength - radius;
-            float radius = circleRadius;
             canvas.rotate(degree, sideLength, sideLength);
             if(currOffsetCount == offSetCount){
                 paint.setColor(colorOffset);
                 paint.setStrokeWidth(strokeWidthOffset);
-                cy += offSet;
-                radius = circleRadiusOffset;
                 currOffsetCount = 0;
             }else{
                 paint.setColor(color);
                 paint.setStrokeWidth(strokeWidth);
                 currOffsetCount ++;
             }
-            canvas.drawCircle(sideLength, cy, radius, paint);
+
+            RectF rectF = new RectF();
+            rectF.set(
+                    sideLength - width / 2,
+                    sideLength - height / 2 - radius,
+                    sideLength + width / 2,
+                    sideLength + height / 2  - radius
+            );
+            if (rectType == RECT) {
+                canvas.drawRect(rectF, paint);
+            } else if (rectType == ROUND_RECT) {
+                canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
+            } else if (rectType == OVAL) {
+                canvas.drawOval(rectF, paint);
+            }
         }
         //指示的圆点要大些 除了100%
         /*if (mCreditValueSolid != mMax) {

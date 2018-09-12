@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
@@ -15,13 +14,10 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.example.martin.dashboardview.property.arc.BaseArc;
-import com.example.martin.dashboardview.property.arc.HollowArc;
-import com.example.martin.dashboardview.property.arc.HorizontalLinearArc;
-import com.example.martin.dashboardview.property.arc.RadialLinearArc;
-import com.example.martin.dashboardview.property.arc.SolidArc;
 import com.example.martin.dashboardview.property.indicator.BaseIndicator;
 import com.example.martin.dashboardview.property.indicator.RectIndicator;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +34,9 @@ public class DashboardView extends View {
     private Path mPath;
 
     private int mSideLength;
+
+    private BigDecimal maxScore = BigDecimal.ZERO;
+    private BigDecimal currScore = BigDecimal.ZERO;
 
     private List<BaseArc> arcs = new ArrayList<>();
     private List<BaseIndicator> indicators  = new ArrayList<>();
@@ -118,23 +117,24 @@ public class DashboardView extends View {
 
 
         RectIndicator ri = new RectIndicator();
-        ri.setRadius(200);
+        ri.setRadius(300);
         ri.setStartArc(0);
         ri.setEndArc(360);
         ri.setCount(16);
+        ri.setCircleRadius(1);
+        ri.setCircleRadiusOffset(30);
 
-        ri.setCircleRadius(5);
         ri.setColor(Color.WHITE);
+        ri.setWidth(10);
+        ri.setHeight(10);
         ri.setStrokeWidth(20);
-
         ri.setOffSetCount(1);
 
-        ri.setCircleRadiusOffset(10);
         ri.setColorOffset(Color.WHITE);
         ri.setStrokeWidthOffset(20);
         ri.setOffSet(20);
+        ri.setRectType(RectIndicator.OVAL);
         indicators.add(ri);
-
     }
 
     @Override
