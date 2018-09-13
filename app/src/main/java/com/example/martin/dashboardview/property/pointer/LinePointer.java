@@ -8,10 +8,74 @@ import android.graphics.RectF;
 
 public class LinePointer extends BasePointer {
 
+    /**
+     * 矩形
+     */
+    public static final int RECT = 1;
+    /**
+     * 圆角矩形
+     */
+    public static final int ROUND_RECT = 2;
+    /**
+     * 圆形
+     */
+    public static final int OVAL = 3;
+
+    private int width;
+
+    private int height;
+
+    private int offset;
+
+    private float circleRadius;
+
+    /**
+     * 方块类型
+     */
+    private int rectType = RECT;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getRectType() {
+        return rectType;
+    }
+
+    public void setRectType(int rectType) {
+        this.rectType = rectType;
+    }
+
+    public float getCircleRadius() {
+        return circleRadius;
+    }
+
+    public void setCircleRadius(float circleRadius) {
+        this.circleRadius = circleRadius;
+    }
+
     @Override
-    public void draw(Canvas canvas, Paint paint, int sideLength,float rotateDegree) {
-        int width = 50;
-        int height = 300;
+    public void draw(Canvas canvas, Paint paint, int sideLength, float rotateDegree) {
         sideLength = sideLength / 2;
         canvas.save();
 
@@ -21,9 +85,16 @@ public class LinePointer extends BasePointer {
                 sideLength - width / 2,
                 sideLength - height,
                 sideLength + width / 2,
-                sideLength
+                sideLength + offset
         );
-        canvas.drawRect(rectF, paint);
+
+        if (rectType == RECT) {
+            canvas.drawRect(rectF, paint);
+        } else if (rectType == ROUND_RECT) {
+            canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
+        } else if (rectType == OVAL) {
+            canvas.drawOval(rectF, paint);
+        }
 
         canvas.restore();
     }

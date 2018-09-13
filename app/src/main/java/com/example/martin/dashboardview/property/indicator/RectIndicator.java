@@ -253,16 +253,16 @@ public class RectIndicator extends BaseIndicator {
         int currOffsetCount = 0;
 
         // 顺时针旋转
-        for (int i = 0; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             canvas.rotate(degree, sideLength, sideLength);
-            if(currOffsetCount == offSetCount){
+            if (currOffsetCount == offSetCount) {
                 paint.setColor(colorOffset);
                 paint.setStrokeWidth(strokeWidthOffset);
                 currOffsetCount = 0;
-            }else{
+            } else {
                 paint.setColor(color);
                 paint.setStrokeWidth(strokeWidth);
-                currOffsetCount ++;
+                currOffsetCount++;
             }
 
             RectF rectF = new RectF();
@@ -270,7 +270,7 @@ public class RectIndicator extends BaseIndicator {
                     sideLength - width / 2,
                     sideLength - height / 2 - radius,
                     sideLength + width / 2,
-                    sideLength + height / 2  - radius
+                    sideLength + height / 2 - radius
             );
             if (rectType == RECT) {
                 canvas.drawRect(rectF, paint);

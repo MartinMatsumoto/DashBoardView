@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.CycleInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.example.martin.dashboardview.property.arc.BaseArc;
 import com.example.martin.dashboardview.property.indicator.BaseIndicator;
@@ -149,7 +150,13 @@ public class DashboardView extends View {
         ri.setRectType(RectIndicator.OVAL);
         indicators.add(ri);*/
 
-        pointers.add(new LinePointer());
+        LinePointer lp = new LinePointer();
+        lp.setHeight(300);
+        lp.setWidth(30);
+        lp.setOffset(30);
+        lp.setRectType(LinePointer.ROUND_RECT);
+        lp.setCircleRadius(10);
+        pointers.add(lp);
     }
 
     @Override
@@ -185,7 +192,7 @@ public class DashboardView extends View {
     public void setCreditValueWithAnim(int creditValue) {
         currScore = creditValue;
         ValueAnimator creditValueAnimator = ValueAnimator.ofInt(0, 100);
-        creditValueAnimator.setDuration(5000);
+        creditValueAnimator.setDuration(1500);
         creditValueAnimator.setInterpolator(new BounceInterpolator());
         ValueAnimator.setFrameDelay(10);
         creditValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
