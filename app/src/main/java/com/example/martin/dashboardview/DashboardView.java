@@ -1,5 +1,9 @@
 package com.example.martin.dashboardview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -12,6 +16,9 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.CycleInterpolator;
 
 import com.example.martin.dashboardview.property.arc.BaseArc;
 import com.example.martin.dashboardview.property.indicator.BaseIndicator;
@@ -37,8 +44,10 @@ public class DashboardView extends View {
 
     private int mSideLength;
 
-    private BigDecimal maxScore = BigDecimal.ZERO;
-    private BigDecimal currScore = BigDecimal.ZERO;
+    private int maxScore = 100;
+    private int currScore = 0;
+    //当前需要旋转的数值
+    private float rotateDegree = 0f;
 
     private List<BaseArc> arcs = new ArrayList<>();
     private List<BaseIndicator> indicators  = new ArrayList<>();
@@ -73,6 +82,8 @@ public class DashboardView extends View {
         testData();
 
         setBackgroundColor(Color.BLUE);
+
+        setCreditValueWithAnim(100);
     }
 
     private void testData() {
@@ -162,8 +173,30 @@ public class DashboardView extends View {
         }
 
         for (BasePointer arc : pointers) {
-            arc.draw(canvas, mPaint, mSideLength);
+            arc.draw(canvas, mPaint, mSideLength, rotateDegree);
         }
+    }
+
+    /**
+     * 设置值并播放动画
+     *
+     * @param creditValue 值
+     */
+    public void setCreditValueWithAnim(int creditValue) {
+        currScore = creditValue;
+        ValueAnimator creditValueAnimator = ValueAnimator.ofInt(0, 100);
+        creditValueAnimator.setDuration(5000);
+        creditValueAnimator.setInterpolator(new BounceInterpolator());
+        ValueAnimator.setFrameDelay(10);
+        creditValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int currValue = (int) animation.getAnimatedValue();
+                rotateDegree = currValue * 1.0f / 100 * 360 * 1.0f;
+                postInvalidate();
+            }
+        });
+        creditValueAnimator.start();
     }
 
     /**
