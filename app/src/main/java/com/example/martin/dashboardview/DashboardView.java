@@ -1,8 +1,5 @@
 package com.example.martin.dashboardview;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,18 +13,15 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 import com.example.martin.dashboardview.property.arc.BaseArc;
 import com.example.martin.dashboardview.property.indicator.BaseIndicator;
-import com.example.martin.dashboardview.property.indicator.RectIndicator;
 import com.example.martin.dashboardview.property.pointer.BasePointer;
-import com.example.martin.dashboardview.property.pointer.LinePointer;
+import com.example.martin.dashboardview.property.pointer.EchelonPointer;
+import com.example.martin.dashboardview.property.pointer.RectPointer;
+import com.example.martin.dashboardview.property.pointer.TrianglePointer;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,13 +144,36 @@ public class DashboardView extends View {
         ri.setRectType(RectIndicator.OVAL);
         indicators.add(ri);*/
 
-        LinePointer lp = new LinePointer();
+        RectPointer lp = new RectPointer();
         lp.setHeight(300);
         lp.setWidth(30);
         lp.setOffset(30);
-        lp.setRectType(LinePointer.ROUND_RECT);
+        lp.setRectType(RectPointer.ROUND_RECT);
         lp.setCircleRadius(10);
-        pointers.add(lp);
+        lp.setStrokeWidth(5);
+        lp.setColor(Color.GREEN);
+//        pointers.add(lp);
+
+        TrianglePointer tp = new TrianglePointer();
+        tp.setHeight(300);
+        tp.setWidth(300);
+        tp.setOffset(30);
+        tp.setRectType(RectPointer.ROUND_RECT);
+        tp.setCircleRadius(10);
+        tp.setStrokeWidth(5);
+        tp.setColor(Color.GREEN);
+//        pointers.add(tp);
+
+        EchelonPointer ep = new EchelonPointer();
+        ep.setHeight(300);
+        ep.setWidth(100);
+        ep.setOffset(30);
+        ep.setRectType(RectPointer.ROUND_RECT);
+        ep.setCircleRadius(20);
+        ep.setStrokeWidth(5);
+        ep.setTopWidth(200);
+        ep.setColor(Color.GREEN);
+        pointers.add(ep);
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.example.martin.dashboardview.property.pointer;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.CornerPathEffect;
+import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathDashPathEffect;
 import android.graphics.RectF;
 
-public class LinePointer extends BasePointer {
+public class TrianglePointer extends BasePointer {
 
     /**
      * 矩形
@@ -29,6 +31,12 @@ public class LinePointer extends BasePointer {
 
     private float circleRadius;
 
+    private int color;
+
+    /**
+     * 线宽
+     */
+    private int strokeWidth;
     /**
      * 方块类型
      */
@@ -74,27 +82,44 @@ public class LinePointer extends BasePointer {
         this.circleRadius = circleRadius;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength, float rotateDegree) {
         sideLength = sideLength / 2;
         canvas.save();
 
-        canvas.rotate(rotateDegree, sideLength, sideLength);
-        RectF rectF = new RectF();
-        rectF.set(
-                sideLength - width / 2,
-                sideLength - height,
-                sideLength + width / 2,
-                sideLength + offset
-        );
+        paint.setStrokeWidth(strokeWidth);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(color);
 
-        if (rectType == RECT) {
-            canvas.drawRect(rectF, paint);
-        } else if (rectType == ROUND_RECT) {
-            canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
-        } else if (rectType == OVAL) {
-            canvas.drawOval(rectF, paint);
-        }
+        canvas.rotate(rotateDegree, sideLength, sideLength);
+
+        Path path = new Path();
+        path.moveTo(sideLength, sideLength);
+        path.rLineTo(width / 2, 0);
+        path.rLineTo(-width / 2, -height);
+        path.rLineTo(-width / 2, height);
+        path.close();
+
+//        paint.setPathEffect(new CornerPathEffect(150));
+        paint.setPathEffect(new DiscretePathEffect(10,10));
+
+        canvas.drawPath(path, paint);
 
         canvas.restore();
     }
