@@ -1,13 +1,10 @@
-package com.example.martin.dashboardview.property.pointer;
+package com.example.martin.dashboardview.widget.pointer;
 
 import android.graphics.Canvas;
-import android.graphics.CornerPathEffect;
-import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 
-public class EchelonPointer extends BasePointer {
+public class RectPointer extends BasePointer {
 
     /**
      * 矩形
@@ -23,7 +20,6 @@ public class EchelonPointer extends BasePointer {
     public static final int OVAL = 3;
 
     private int width;
-    private int topWidth;
 
     private int height;
 
@@ -98,14 +94,6 @@ public class EchelonPointer extends BasePointer {
         this.strokeWidth = strokeWidth;
     }
 
-    public int getTopWidth() {
-        return topWidth;
-    }
-
-    public void setTopWidth(int topWidth) {
-        this.topWidth = topWidth;
-    }
-
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength, float rotateDegree) {
         sideLength = sideLength / 2;
@@ -116,19 +104,21 @@ public class EchelonPointer extends BasePointer {
         paint.setColor(color);
 
         canvas.rotate(rotateDegree, sideLength, sideLength);
+        RectF rectF = new RectF();
+        rectF.set(
+                sideLength - width / 2,
+                sideLength - height,
+                sideLength + width / 2,
+                sideLength + offset
+        );
 
-        Path path = new Path();
-        path.moveTo(sideLength, sideLength);
-        path.rLineTo(width / 2, 0);
-        path.rLineTo(-(width - topWidth) / 2, -height);
-        path.rLineTo(-topWidth, 0);
-        path.rLineTo(-(width - topWidth) / 2, height);
-        path.close();
-
-        paint.setPathEffect(new CornerPathEffect(20));
-//        paint.setPathEffect(new DiscretePathEffect(10,10));
-
-        canvas.drawPath(path, paint);
+        if (rectType == RECT) {
+            canvas.drawRect(rectF, paint);
+        } else if (rectType == ROUND_RECT) {
+            canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
+        } else if (rectType == OVAL) {
+            canvas.drawOval(rectF, paint);
+        }
 
         canvas.restore();
     }

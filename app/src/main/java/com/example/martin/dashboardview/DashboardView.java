@@ -15,12 +15,13 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 
-import com.example.martin.dashboardview.property.arc.BaseArc;
-import com.example.martin.dashboardview.property.indicator.BaseIndicator;
-import com.example.martin.dashboardview.property.pointer.BasePointer;
-import com.example.martin.dashboardview.property.pointer.EchelonPointer;
-import com.example.martin.dashboardview.property.pointer.RectPointer;
-import com.example.martin.dashboardview.property.pointer.TrianglePointer;
+import com.example.martin.dashboardview.widget.arc.BaseArc;
+import com.example.martin.dashboardview.widget.indicator.BaseIndicator;
+import com.example.martin.dashboardview.widget.pointer.BasePointer;
+import com.example.martin.dashboardview.widget.pointer.CombinedPointer;
+import com.example.martin.dashboardview.widget.pointer.EchelonPointer;
+import com.example.martin.dashboardview.widget.pointer.RectPointer;
+import com.example.martin.dashboardview.widget.pointer.TrianglePointer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,7 +174,9 @@ public class DashboardView extends View {
         ep.setStrokeWidth(5);
         ep.setTopWidth(200);
         ep.setColor(Color.GREEN);
-        pointers.add(ep);
+//        pointers.add(ep);
+
+        pointers.add(new CombinedPointer());
     }
 
     @Override

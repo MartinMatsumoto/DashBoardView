@@ -1,29 +1,29 @@
-package com.example.martin.dashboardview.property.pointer;
+package com.example.martin.dashboardview.widget.pointer;
 
 import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
-import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathDashPathEffect;
-import android.graphics.RectF;
 
-public class TrianglePointer extends BasePointer {
+public class EchelonPointer extends BasePointer {
 
     /**
      * 矩形
      */
     public static final int RECT = 1;
+
     /**
      * 圆角矩形
      */
     public static final int ROUND_RECT = 2;
+
     /**
      * 圆形
      */
     public static final int OVAL = 3;
 
     private int width;
+    private int topWidth;
 
     private int height;
 
@@ -98,6 +98,14 @@ public class TrianglePointer extends BasePointer {
         this.strokeWidth = strokeWidth;
     }
 
+    public int getTopWidth() {
+        return topWidth;
+    }
+
+    public void setTopWidth(int topWidth) {
+        this.topWidth = topWidth;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength, float rotateDegree) {
         sideLength = sideLength / 2;
@@ -112,12 +120,13 @@ public class TrianglePointer extends BasePointer {
         Path path = new Path();
         path.moveTo(sideLength, sideLength);
         path.rLineTo(width / 2, 0);
-        path.rLineTo(-width / 2, -height);
-        path.rLineTo(-width / 2, height);
+        path.rLineTo(-(width - topWidth) / 2, -height);
+        path.rLineTo(-topWidth, 0);
+        path.rLineTo(-(width - topWidth) / 2, height);
         path.close();
 
-//        paint.setPathEffect(new CornerPathEffect(150));
-        paint.setPathEffect(new DiscretePathEffect(10,10));
+        paint.setPathEffect(new CornerPathEffect(20));
+//        paint.setPathEffect(new DiscretePathEffect(10,10));
 
         canvas.drawPath(path, paint);
 

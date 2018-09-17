@@ -1,10 +1,13 @@
-package com.example.martin.dashboardview.property.arc;
+package com.example.martin.dashboardview.widget.arc;
 
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader;
 
-public class SolidArc extends BaseArc {
+public class RadialLinearArc extends BaseArc {
 
     /**
      * 起始角度
@@ -35,6 +38,16 @@ public class SolidArc extends BaseArc {
      * 线宽
      */
     private int strokeWidth;
+
+    /**
+     * 线性颜色
+     */
+    private int[] colors;
+
+    /**
+     * 虚线
+     */
+    private float[] dashEffect;
 
     /**
      * 线帽
@@ -98,15 +111,37 @@ public class SolidArc extends BaseArc {
         this.paintCap = paintCap;
     }
 
+    public int[] getColors() {
+        return colors;
+    }
+
+    public void setColors(int[] colors) {
+        this.colors = colors;
+    }
+
+    public float[] getDashEffect() {
+        return dashEffect;
+    }
+
+    public void setDashEffect(float[] dashEffect) {
+        this.dashEffect = dashEffect;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength) {
         sideLength = sideLength / 2;
         canvas.save();
-        paint.setShader(null);
-        paint.setColor(color);
+
+        Shader mShader = new RadialGradient(sideLength, sideLength, radius + strokeWidth / 2, colors, generatePositions(), Shader.TileMode.REPEAT);
+
+        paint.setShader(mShader);// 用Shader中定义定义的颜色
         paint.setStrokeCap(paintCap);
         paint.setStrokeWidth(strokeWidth);
         paint.setStyle(Paint.Style.STROKE);
+        if(dashEffect != null){
+            paint.setPathEffect(new DashPathEffect(dashEffect,0));
+        }
+
         RectF rectF = new RectF();
         rectF.set(
                 sideLength - radius,
@@ -116,5 +151,22 @@ public class SolidArc extends BaseArc {
         );
         canvas.drawArc(rectF, startArc, endArc, false, paint);
         canvas.restore();
+    }
+
+    /**
+     * 生成colors定点
+     *
+     * @return
+     */
+    private float[] generatePositions() {
+        float startArcPosition = (radius - strokeWidth) * 1.0f / radius;
+        float endArcPosition = 1;
+        float degree = (endArcPosition - startArcPosition) * 1.0f / (colors.length - 1) * 1.0f;
+
+        float[] positions = new float[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            positions[i] = startArcPosition + degree * i;
+        }
+        return positions;
     }
 }

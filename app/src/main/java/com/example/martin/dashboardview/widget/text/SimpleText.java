@@ -1,4 +1,4 @@
-package com.example.martin.dashboardview.property.text;
+package com.example.martin.dashboardview.widget.text;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,4 +1,4 @@
-package com.example.martin.dashboardview.property.pointer;
+package com.example.martin.dashboardview.widget.pointer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

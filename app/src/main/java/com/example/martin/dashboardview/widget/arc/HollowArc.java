@@ -1,6 +1,5 @@
-package com.example.martin.dashboardview.property.arc;
+package com.example.martin.dashboardview.widget.arc;
 
-import android.app.Application;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;

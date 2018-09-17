@@ -1,15 +1,10 @@
-package com.example.martin.dashboardview.property.arc;
+package com.example.martin.dashboardview.widget.arc;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.SweepGradient;
 
-public class HorizontalLinearArc extends BaseArc {
+public class SolidArc extends BaseArc {
 
     /**
      * 起始角度
@@ -40,11 +35,6 @@ public class HorizontalLinearArc extends BaseArc {
      * 线宽
      */
     private int strokeWidth;
-
-    /**
-     * 线性颜色
-     */
-    private int[] colors;
 
     /**
      * 线帽
@@ -108,21 +98,12 @@ public class HorizontalLinearArc extends BaseArc {
         this.paintCap = paintCap;
     }
 
-    public int[] getColors() {
-        return colors;
-    }
-
-    public void setColors(int[] colors) {
-        this.colors = colors;
-    }
-
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength) {
         sideLength = sideLength / 2;
         canvas.save();
-
-        Shader mShader = new SweepGradient(sideLength, sideLength, colors, generatePositions());
-        paint.setShader(mShader);// 用Shader中定义定义的颜色
+        paint.setShader(null);
+        paint.setColor(color);
         paint.setStrokeCap(paintCap);
         paint.setStrokeWidth(strokeWidth);
         paint.setStyle(Paint.Style.STROKE);
@@ -135,28 +116,5 @@ public class HorizontalLinearArc extends BaseArc {
         );
         canvas.drawArc(rectF, startArc, endArc, false, paint);
         canvas.restore();
-    }
-
-    /**
-     * 生成colors定点
-     *
-     * @return
-     */
-    private float[] generatePositions() {
-        float startArcPosition = startArc * 1.0f / 360;
-        float endArcPosition = (endArc + startArc) * 1.0f / 360;
-        float degree = (endArcPosition - startArcPosition) * 1.0f / (colors.length - 1) * 1.0f;
-
-        float[] positions = new float[colors.length];
-        for (int i = 0; i < colors.length; i++) {
-            positions[i] = startArcPosition + degree * i;
-        }
-        if (positions[0] != 0) {
-            positions[0] -= 0.008;
-        }
-        if (positions[positions.length - 1] != 360) {
-            positions[positions.length - 1] += 0.008;
-        }
-        return positions;
     }
 }

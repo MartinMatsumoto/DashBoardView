@@ -1,12 +1,11 @@
-package com.example.martin.dashboardview.property.pointer;
+package com.example.martin.dashboardview.widget.pointer;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
 
-public class RectPointer extends BasePointer {
+public class TrianglePointer extends BasePointer {
 
     /**
      * 矩形
@@ -106,21 +105,18 @@ public class RectPointer extends BasePointer {
         paint.setColor(color);
 
         canvas.rotate(rotateDegree, sideLength, sideLength);
-        RectF rectF = new RectF();
-        rectF.set(
-                sideLength - width / 2,
-                sideLength - height,
-                sideLength + width / 2,
-                sideLength + offset
-        );
 
-        if (rectType == RECT) {
-            canvas.drawRect(rectF, paint);
-        } else if (rectType == ROUND_RECT) {
-            canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
-        } else if (rectType == OVAL) {
-            canvas.drawOval(rectF, paint);
-        }
+        Path path = new Path();
+        path.moveTo(sideLength, sideLength);
+        path.rLineTo(width / 2, 0);
+        path.rLineTo(-width / 2, -height);
+        path.rLineTo(-width / 2, height);
+        path.close();
+
+//        paint.setPathEffect(new CornerPathEffect(150));
+        paint.setPathEffect(new DiscretePathEffect(10,10));
+
+        canvas.drawPath(path, paint);
 
         canvas.restore();
     }

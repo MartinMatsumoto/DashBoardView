@@ -1,14 +1,12 @@
-package com.example.martin.dashboardview.property.arc;
+package com.example.martin.dashboardview.widget.arc;
 
 import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 
-public class RadialLinearArc extends BaseArc {
+public class HorizontalLinearArc extends BaseArc {
 
     /**
      * 起始角度
@@ -44,11 +42,6 @@ public class RadialLinearArc extends BaseArc {
      * 线性颜色
      */
     private int[] colors;
-
-    /**
-     * 虚线
-     */
-    private float[] dashEffect;
 
     /**
      * 线帽
@@ -120,29 +113,16 @@ public class RadialLinearArc extends BaseArc {
         this.colors = colors;
     }
 
-    public float[] getDashEffect() {
-        return dashEffect;
-    }
-
-    public void setDashEffect(float[] dashEffect) {
-        this.dashEffect = dashEffect;
-    }
-
     @Override
     public void draw(Canvas canvas, Paint paint, int sideLength) {
         sideLength = sideLength / 2;
         canvas.save();
 
-        Shader mShader = new RadialGradient(sideLength, sideLength, radius + strokeWidth / 2, colors, generatePositions(), Shader.TileMode.REPEAT);
-
+        Shader mShader = new SweepGradient(sideLength, sideLength, colors, generatePositions());
         paint.setShader(mShader);// 用Shader中定义定义的颜色
         paint.setStrokeCap(paintCap);
         paint.setStrokeWidth(strokeWidth);
         paint.setStyle(Paint.Style.STROKE);
-        if(dashEffect != null){
-            paint.setPathEffect(new DashPathEffect(dashEffect,0));
-        }
-
         RectF rectF = new RectF();
         rectF.set(
                 sideLength - radius,
@@ -160,13 +140,19 @@ public class RadialLinearArc extends BaseArc {
      * @return
      */
     private float[] generatePositions() {
-        float startArcPosition = (radius - strokeWidth) * 1.0f / radius;
-        float endArcPosition = 1;
+        float startArcPosition = startArc * 1.0f / 360;
+        float endArcPosition = (endArc + startArc) * 1.0f / 360;
         float degree = (endArcPosition - startArcPosition) * 1.0f / (colors.length - 1) * 1.0f;
 
         float[] positions = new float[colors.length];
         for (int i = 0; i < colors.length; i++) {
             positions[i] = startArcPosition + degree * i;
+        }
+        if (positions[0] != 0) {
+            positions[0] -= 0.008;
+        }
+        if (positions[positions.length - 1] != 360) {
+            positions[positions.length - 1] += 0.008;
         }
         return positions;
     }
