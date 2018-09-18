@@ -20,11 +20,7 @@ import com.example.martin.dashboardview.property.Shape;
 import com.example.martin.dashboardview.widget.arc.BaseArc;
 import com.example.martin.dashboardview.widget.indicator.BaseIndicator;
 import com.example.martin.dashboardview.widget.pointer.BasePointer;
-import com.example.martin.dashboardview.widget.pointer.CombinedPointer;
-import com.example.martin.dashboardview.widget.pointer.EchelonPointer;
-import com.example.martin.dashboardview.widget.pointer.RectPointer;
 import com.example.martin.dashboardview.widget.pointer.ShapePointer;
-import com.example.martin.dashboardview.widget.pointer.TrianglePointer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,42 +178,37 @@ public class DashboardView extends View {
 //        pointers.add(new CombinedPointer());
 
 
-        ShapePointer shapePointer = new ShapePointer();
-
-        Shape shape = new Shape();
+        ShapePointer shapePointer1 = new ShapePointer();
         Property property = new Property();
         property.setShape(Shape.RECTANGLE);
         property.setWidth(300);
         property.setHeight(300);
         property.setColor(Color.BLACK);
-//        property.setFillType(Path.FillType.WINDING);
-        shape.setProperty(property);
+        shapePointer1.setProperty(property);
+        property.setShape(Shape.CIRCULAR);
 
-        Shape shape2 = new Shape();
+        ShapePointer shapePointer2 = new ShapePointer();
         Property property2 = new Property();
         property2.setShape(Shape.TRIANGLE);
         property2.setWidth(100);
         property2.setHeight(100);
         property2.setColor(Color.WHITE);
-//        property2.setFillType(Path.FillType.WINDING);
-        shape2.setProperty(property2);
+        shapePointer2.setProperty(property2);
+        property.setShape(Shape.CIRCULAR);
 
-        Shape shape3 = new Shape();
+        ShapePointer shapePointer3 = new ShapePointer();
         Property property3 = new Property();
         property3.setShape(Shape.CIRCULAR);
         property3.setWidth(100);
         property3.setHeight(100);
         property3.setColor(Color.WHITE);
-//        property3.setFillType(Path.FillType.WINDING);
-        shape3.setProperty(property3);
-
-//        shapePointer.addShape(shape);
-        shapePointer.addShape(shape2);
-        shapePointer.addShape(shape3);
+        shapePointer3.setProperty(property3);
+        property.setShape(Shape.CIRCULAR);
 
 
-
-        pointers.add(shapePointer);
+        pointers.add(shapePointer1);
+        pointers.add(shapePointer2);
+        pointers.add(shapePointer3);
 
     }
 

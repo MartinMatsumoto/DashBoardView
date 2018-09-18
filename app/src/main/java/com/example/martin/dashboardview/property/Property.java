@@ -3,6 +3,7 @@ package com.example.martin.dashboardview.property;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 
 public class Property {
 
@@ -93,9 +94,14 @@ public class Property {
     private Paint.Style paintStyle = Paint.Style.FILL;
 
     /**
+     * 线条效果
+     */
+    private PathEffect pathEffect;
+
+    /**
      * 形状
      */
-    private int shape;
+    private Shape shape;
 
     /**
      * 混合类型
@@ -110,6 +116,9 @@ public class Property {
         paint.setStrokeWidth(getStrokeWidth());
         paint.setStyle(getPaintStyle());
         paint.setColor(getColor());
+        if(pathEffect != null){
+            paint.setPathEffect(pathEffect);
+        }
     }
 
     public Paint.Style getPaintStyle() {
@@ -248,11 +257,11 @@ public class Property {
         this.paintCap = paintCap;
     }
 
-    public int getShape() {
+    public Shape getShape() {
         return shape;
     }
 
-    public void setShape(int shape) {
+    public void setShape(Shape shape) {
         this.shape = shape;
     }
 
@@ -262,5 +271,13 @@ public class Property {
 
     public void setFillType(Path.FillType fillType) {
         this.fillType = fillType;
+    }
+
+    public PathEffect getPathEffect() {
+        return pathEffect;
+    }
+
+    public void setPathEffect(PathEffect pathEffect) {
+        this.pathEffect = pathEffect;
     }
 }
