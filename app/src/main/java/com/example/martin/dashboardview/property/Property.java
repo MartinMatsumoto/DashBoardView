@@ -2,6 +2,7 @@ package com.example.martin.dashboardview.property;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 public class Property {
 
@@ -34,11 +35,6 @@ public class Property {
      * 旋转角度
      */
     private float rotateDegree;
-
-    /**
-     * 中点
-     */
-    private int centerPointer;
 
     /**
      * 圆角角度
@@ -91,6 +87,39 @@ public class Property {
      */
     private Paint.Cap paintCap = Paint.Cap.SQUARE;
 
+    /**
+     * 是否填充
+     */
+    private Paint.Style paintStyle = Paint.Style.FILL;
+
+    /**
+     * 形状
+     */
+    private int shape;
+
+    /**
+     * 混合类型
+     */
+    private Path.FillType fillType;
+
+    /**
+     * 设置笔画属性
+     * @param paint
+     */
+    public void setPaint(Paint paint){
+        paint.setStrokeWidth(getStrokeWidth());
+        paint.setStyle(getPaintStyle());
+        paint.setColor(getColor());
+    }
+
+    public Paint.Style getPaintStyle() {
+        return paintStyle;
+    }
+
+    public void setPaintStyle(Paint.Style paintStyle) {
+        this.paintStyle = paintStyle;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -137,14 +166,6 @@ public class Property {
 
     public void setRotateDegree(float rotateDegree) {
         this.rotateDegree = rotateDegree;
-    }
-
-    public int getCenterPointer() {
-        return centerPointer;
-    }
-
-    public void setCenterPointer(int centerPointer) {
-        this.centerPointer = centerPointer;
     }
 
     public float getAngleRadius() {
@@ -225,5 +246,21 @@ public class Property {
 
     public void setPaintCap(Paint.Cap paintCap) {
         this.paintCap = paintCap;
+    }
+
+    public int getShape() {
+        return shape;
+    }
+
+    public void setShape(int shape) {
+        this.shape = shape;
+    }
+
+    public Path.FillType getFillType() {
+        return fillType;
+    }
+
+    public void setFillType(Path.FillType fillType) {
+        this.fillType = fillType;
     }
 }

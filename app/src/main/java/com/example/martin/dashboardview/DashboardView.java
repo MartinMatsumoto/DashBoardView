@@ -15,12 +15,15 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 
+import com.example.martin.dashboardview.property.Property;
+import com.example.martin.dashboardview.property.Shape;
 import com.example.martin.dashboardview.widget.arc.BaseArc;
 import com.example.martin.dashboardview.widget.indicator.BaseIndicator;
 import com.example.martin.dashboardview.widget.pointer.BasePointer;
 import com.example.martin.dashboardview.widget.pointer.CombinedPointer;
 import com.example.martin.dashboardview.widget.pointer.EchelonPointer;
 import com.example.martin.dashboardview.widget.pointer.RectPointer;
+import com.example.martin.dashboardview.widget.pointer.ShapePointer;
 import com.example.martin.dashboardview.widget.pointer.TrianglePointer;
 
 import java.util.ArrayList;
@@ -145,7 +148,7 @@ public class DashboardView extends View {
         ri.setRectType(RectIndicator.OVAL);
         indicators.add(ri);*/
 
-        RectPointer lp = new RectPointer();
+        /*RectPointer lp = new RectPointer();
         lp.setHeight(300);
         lp.setWidth(30);
         lp.setOffset(30);
@@ -153,9 +156,9 @@ public class DashboardView extends View {
         lp.setCircleRadius(10);
         lp.setStrokeWidth(5);
         lp.setColor(Color.GREEN);
-//        pointers.add(lp);
+        pointers.add(lp);*/
 
-        TrianglePointer tp = new TrianglePointer();
+        /*TrianglePointer tp = new TrianglePointer();
         tp.setHeight(300);
         tp.setWidth(300);
         tp.setOffset(30);
@@ -163,9 +166,9 @@ public class DashboardView extends View {
         tp.setCircleRadius(10);
         tp.setStrokeWidth(5);
         tp.setColor(Color.GREEN);
-//        pointers.add(tp);
+        pointers.add(tp);*/
 
-        EchelonPointer ep = new EchelonPointer();
+        /*EchelonPointer ep = new EchelonPointer();
         ep.setHeight(300);
         ep.setWidth(100);
         ep.setOffset(30);
@@ -174,9 +177,48 @@ public class DashboardView extends View {
         ep.setStrokeWidth(5);
         ep.setTopWidth(200);
         ep.setColor(Color.GREEN);
-//        pointers.add(ep);
+        pointers.add(ep);*/
 
-        pointers.add(new CombinedPointer());
+//        pointers.add(new CombinedPointer());
+
+
+        ShapePointer shapePointer = new ShapePointer();
+
+        Shape shape = new Shape();
+        Property property = new Property();
+        property.setShape(Shape.RECTANGLE);
+        property.setWidth(300);
+        property.setHeight(300);
+        property.setColor(Color.BLACK);
+//        property.setFillType(Path.FillType.WINDING);
+        shape.setProperty(property);
+
+        Shape shape2 = new Shape();
+        Property property2 = new Property();
+        property2.setShape(Shape.TRIANGLE);
+        property2.setWidth(100);
+        property2.setHeight(100);
+        property2.setColor(Color.WHITE);
+//        property2.setFillType(Path.FillType.WINDING);
+        shape2.setProperty(property2);
+
+        Shape shape3 = new Shape();
+        Property property3 = new Property();
+        property3.setShape(Shape.CIRCULAR);
+        property3.setWidth(100);
+        property3.setHeight(100);
+        property3.setColor(Color.WHITE);
+//        property3.setFillType(Path.FillType.WINDING);
+        shape3.setProperty(property3);
+
+//        shapePointer.addShape(shape);
+        shapePointer.addShape(shape2);
+        shapePointer.addShape(shape3);
+
+
+
+        pointers.add(shapePointer);
+
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.example.martin.dashboardview.property;
 
 import android.graphics.Canvas;
+import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 
 public class Shape {
@@ -31,37 +33,67 @@ public class Shape {
      */
     public static final int PARALLELOGRAM = 5;
 
-    public static void draw(Canvas canvas, Paint paint, int shape, Property property) {
-        if(property == null){
+    /**
+     * 属性
+     */
+    private Property property;
 
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    public void setPath(Canvas canvas, int centerPointer, float rotateDegree, Path path) {
+        //没有属性怎么画
+        if (property == null) {
+            throw new IllegalArgumentException("property is null");
         }
 
-        if(shape == Shape.RECTANGLE){
-            int centerPointer = property.getCenterPointer();
-            canvas.save();
+//        canvas.rotate(rotateDegree, centerPointer, centerPointer);
 
-            paint.setStrokeWidth(property.getStrokeWidth());
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(property.getColor());
-
-            canvas.rotate(property.getRotateDegree(), property.getCenterPointer(), property.getCenterPointer());
+        //判断类型
+        if (property.getShape() == Shape.RECTANGLE) {
             RectF rectF = new RectF();
             rectF.set(
-                    sideLength - width / 2,
-                    sideLength - height,
-                    sideLength + width / 2,
-                    sideLength + offset
+                    centerPointer - property.getWidth() / 2,
+                    centerPointer - property.getHeight(),
+                    centerPointer + property.getWidth() / 2,
+                    centerPointer + property.getOffsetX()
             );
-
-            if (rectType == RECT) {
-                canvas.drawRect(rectF, paint);
-            } else if (rectType == ROUND_RECT) {
-                canvas.drawRoundRect(rectF, circleRadius, circleRadius, paint);
-            } else if (rectType == OVAL) {
-                canvas.drawOval(rectF, paint);
+            if (property.getAngleRadius() == 0) {
+                path.addRect(rectF, Path.Direction.CW);
+//                canvas.drawRect(rectF, paint);
+            } else {
+                path.addRoundRect(rectF, property.getAngleRadius(), property.getAngleRadius(), Path.Direction.CW);
+//                canvas.drawRoundRect(rectF, property.getAngleRadius(), property.getAngleRadius(), paint);
             }
-
-            canvas.restore();
+        } else if (property.getShape() == Shape.TRIANGLE) {
+            Path pathTriangle = new Path();
+            pathTriangle.moveTo(centerPointer, centerPointer);
+            pathTriangle.rLineTo(property.getWidth() / 2, 0);
+            pathTriangle.rLineTo(-property.getWidth() / 2, -property.getHeight());
+            pathTriangle.rLineTo(-property.getWidth() / 2, property.getHeight());
+            pathTriangle.setFillType(Path.FillType.WINDING);
+            pathTriangle.close();
+            path.addPath(pathTriangle);
+//        paint.setPathEffect(new CornerPathEffect(150));
+//            paint.setPathEffect(new DiscretePathEffect(10, 10));
+        }else if (property.getShape() == Shape.CIRCULAR) {
+            RectF rectF = new RectF();
+            rectF.set(
+                    centerPointer - property.getWidth() / 2,
+                    centerPointer - property.getHeight(),
+                    centerPointer + property.getWidth() / 2,
+                    centerPointer + property.getOffsetX()
+            );
+            path.addOval(rectF, Path.Direction.CW);
+//        paint.setPathEffect(new CornerPathEffect(150));
+//            paint.setPathEffect(new DiscretePathEffect(10, 10));
         }
+
+//        canvas.drawPath(path, paint);
     }
 }
